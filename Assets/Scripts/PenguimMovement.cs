@@ -24,10 +24,26 @@ public class PenguimMovement : MonoBehaviour {
 			this.transform.Rotate(new Vector3(0f, 0f, -angularSpeed * Time.deltaTime));
 		}
 
-		if (Input.GetKey("w")) {
-			float xProjection = Mathf.Cos(this.transform.rotation.eulerAngles.z * Mathf.Deg2Rad) * acceleration;
-			float yProjection = Mathf.Sin(this.transform.rotation.eulerAngles.z * Mathf.Deg2Rad) * acceleration;
-			rigidBody.AddForce(new Vector2( xProjection, yProjection ), ForceMode2D.Force);
+		if (Input.GetKey("w")) 
+		{
+			// float xProjection = Mathf.Cos(this.transform.rotation.eulerAngles.z * Mathf.Deg2Rad) * acceleration;
+			// float yProjection = Mathf.Sin(this.transform.rotation.eulerAngles.z * Mathf.Deg2Rad) * acceleration;
+			// rigidBody.AddForce(new Vector2( xProjection, yProjection ), ForceMode2D.Force);
+			linearSpeed += acceleration * Time.deltaTime;
+			float xProjection = Mathf.Cos(this.transform.rotation.eulerAngles.z * Mathf.Deg2Rad) * linearSpeed;
+			float yProjection = Mathf.Sin(this.transform.rotation.eulerAngles.z * Mathf.Deg2Rad) * linearSpeed;
+			rigidBody.velocity = new Vector2(xProjection, yProjection);
+		}
+		else
+		{
+			if (linearSpeed > 0f) {
+				linearSpeed -= acceleration * Time.deltaTime;
+				if (linearSpeed <= 0f) linearSpeed = 0f;
+			}
+
+			float xProjection = Mathf.Cos(this.transform.rotation.eulerAngles.z * Mathf.Deg2Rad) * linearSpeed;
+			float yProjection = Mathf.Sin(this.transform.rotation.eulerAngles.z * Mathf.Deg2Rad) * linearSpeed;
+			rigidBody.velocity = new Vector2(xProjection, yProjection);
 		}
 	}
 }
