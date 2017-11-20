@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class PenguimMovement : MonoBehaviour {
 
-	public float maxSpeed = 400, acceleration = 10, shotCooldown = 1;
-	public float angularSpeed = 100;
+	public float maxSpeed = 500, acceleration = 10, shotCooldown = 1;
+	public float angularSpeed = 150;
 
 	private float linearSpeed = 0;
 	private Rigidbody2D rigidBody;
@@ -29,7 +29,11 @@ public class PenguimMovement : MonoBehaviour {
 			// float xProjection = Mathf.Cos(this.transform.rotation.eulerAngles.z * Mathf.Deg2Rad) * acceleration;
 			// float yProjection = Mathf.Sin(this.transform.rotation.eulerAngles.z * Mathf.Deg2Rad) * acceleration;
 			// rigidBody.AddForce(new Vector2( xProjection, yProjection ), ForceMode2D.Force);
-			linearSpeed += acceleration * Time.deltaTime;
+			if (linearSpeed < maxSpeed * Time.deltaTime)
+				linearSpeed += acceleration * Time.deltaTime;
+			else
+				linearSpeed = maxSpeed * Time.deltaTime;
+
 			float xProjection = Mathf.Cos(this.transform.rotation.eulerAngles.z * Mathf.Deg2Rad) * linearSpeed;
 			float yProjection = Mathf.Sin(this.transform.rotation.eulerAngles.z * Mathf.Deg2Rad) * linearSpeed;
 			rigidBody.velocity = new Vector2(xProjection, yProjection);
